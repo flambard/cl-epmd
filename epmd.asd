@@ -8,7 +8,7 @@
   :author "Markus Flambard <mflambard@common-lisp.net>"
   :version "0.1.0"
   :license "MIT License"
-  :depends-on (:erlang-term :flexi-streams :com.gigamonkeys.binary-data :usocket)
+  :depends-on (:com.gigamonkeys.binary-data :usocket)
   :components
   ((:module :src
             :components
