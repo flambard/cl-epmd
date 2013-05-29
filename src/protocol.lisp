@@ -254,14 +254,17 @@
 ;; N bytes: NodeInfo
 ;;
 
-;; TODO:
-;; node-info is a string that should be read until the stream is closed.
-;; Format: "name ~ts at port ~p~n"
-;;
+(define-binary-type iso-8859-1-string-until-eof ()
+  (:reader (in)
+    (coerce (loop for b = (read-byte in nil) while b collect (code-char b))
+            'string))
+  (:writer (out string)
+    (loop for c across string do (write-byte (char-code c) out))
+    (close out)))
 
 (define-binary-class names-response ()
   ((epmd-port-number u4)
-   (node-info        iso-8859-1-terminated-string)))
+   (node-info        iso-8859-1-string-until-eof)))
 
 (defun read-names-response (stream)
   (read-value 'names-response stream))
@@ -273,10 +276,126 @@
                               :epmd-port-number port
                               :node-info node-info)))
 
+;;;
+;;; DUMP_REQ
+;;
+;; 2 bytes: Total length of following message in bytes
+;; 1 byte:  'd'            [DUMP_REQ message]
+;;
 
-;; TODO: DUMP_REQ
-;; TODO: DUMP_RESP
-;; TODO: KILL_REQ
-;; TODO: KILL_RESP
-;; TODO: STOP_REQ
-;; TODO: STOP_RESP/STOP_NOTOK_RESP
+(define-binary-class dump-request (epmd-request)
+  ())
+
+(defun write-dump-request (stream)
+  (write-value 'dump-request
+               stream
+               (make-instance 'dump-request
+                              :size 1
+                              :tag (request-class-tag 'dump-request))))
+
+;;;
+;;; DUMP_RESP
+;;
+;; 4 bytes: EPMDPortNo
+;; N bytes: NodeInfo
+;;
+
+(define-binary-class dump-response ()
+  ((epmd-port-number u4)
+   (node-info        iso-8859-1-string-until-eof)))
+
+(defun read-dump-response (stream)
+  (read-value 'dump-response stream))
+
+(defun write-dump-response (stream port node-info)
+  (write-value 'dump-response
+               stream
+               (make-instance 'dump-response
+                              :epmd-port-number port
+                              :node-info node-info)))
+
+;;;
+;;; KILL_REQ
+;;
+;; 2 bytes: Total length of following message in bytes
+;; 1 byte:  'k'            [KILL_REQ message]
+;;
+
+(define-binary-class kill-request (epmd-request)
+  ())
+
+(defun write-kill-request (stream)
+  (write-value 'kill-request
+               stream
+               (make-instance 'kill-request
+                              :size 1
+                              :tag (request-class-tag 'kill-request))))
+
+
+;;;
+;;; KILL_RESP
+;;
+;; 2 bytes: OKString
+;;
+
+(define-binary-class kill-response ()
+  ((ok-string (iso-8859-1-string :length 2))))
+
+(defun read-kill-response (stream)
+  (read-value 'kill-response stream))
+
+(defun write-kill-response (stream)
+  (write-value 'kill-response
+               stream
+               (make-instance 'kill-response :ok-string "OK")))
+
+
+;;;
+;;; STOP_REQ
+;;
+;; 2 bytes: Total length of following message in bytes
+;; 1 byte:  's'            [STOP_REQ message]
+;; n bytes: NodeName
+;;
+
+(define-binary-class stop-request (epmd-request)
+  ((node-name (iso-8859-1-string :length (1- size)))))
+
+(defun write-stop-request (stream node-name)
+  (write-value 'stop-request
+               stream
+               (make-instance 'stop-request
+                              :size (length node-name)
+                              :tag (request-class-tag 'stop-request)
+                              :node-name node-name)))
+
+;;;
+;;; STOP_RESP / STOP_NOTOK_RESP
+;;
+;; 7 bytes: OKString / NOKString
+;;
+
+(define-tagged-binary-class stop-response ()
+  ((ok-string (iso-8859-1-string :length 7)))
+  (:dispatch (cond
+               ((string= ok-string "STOPPED") 'stop-ok-response)
+               ((string= ok-string "NOEXIST") 'stop-not-ok-response))))
+
+(define-binary-class stop-ok-response (stop-response)
+  ())
+
+(define-binary-class stop-not-ok-response (stop-response)
+  ())
+
+(defun read-stop-response (stream)
+  (read-value 'stop-response stream))
+
+(defun write-stop-ok-response (stream)
+  (write-value 'stop-ok-response
+               stream
+               (make-instance 'stop-ok-response :ok-string "STOPPED")))
+
+(defun write-stop-not-ok-response (stream)
+  (write-value 'stop-not-ok-response
+               stream
+               (make-instance 'stop-not-ok-response :ok-string "NOEXIST")))

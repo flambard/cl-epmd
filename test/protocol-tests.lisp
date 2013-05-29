@@ -55,32 +55,73 @@
   )
 
 (test names-response
-  ;; DOES NOT WORK YET
-  ;; (is (typep
-  ;;      (with-input-from-sequence
-  ;;          (in (with-output-to-sequence (out)
-  ;;                (write-names-response out 3456 "hello world")))
-  ;;        (read-names-response in))
-  ;;      'names-response))
+  (is (typep
+       (with-input-from-sequence
+           (in (with-output-to-sequence (out)
+                 (write-names-response out 3456 "hello world")))
+         (read-names-response in))
+       'names-response))
   )
 
 (test dump-request
+  (is (typep
+       (with-input-from-sequence
+           (in (with-output-to-sequence (out)
+                 (write-dump-request out)))
+         (read-request in))
+       'dump-request))
   )
 
 (test dump-response
+  (is (typep
+       (with-input-from-sequence
+           (in (with-output-to-sequence (out)
+                 (write-dump-response out 3456 "hello world")))
+         (read-dump-response in))
+       'dump-response))
   )
 
 (test kill-request
+  (is (typep
+       (with-input-from-sequence
+           (in (with-output-to-sequence (out)
+                 (write-kill-request out)))
+         (read-request in))
+       'kill-request))
   )
 
 (test kill-response
+  (is (typep
+       (with-input-from-sequence
+           (in (with-output-to-sequence (out)
+                 (write-kill-response out)))
+         (read-kill-response in))
+       'kill-response))
   )
 
 (test stop-request
+  (is (typep
+       (with-input-from-sequence
+           (in (with-output-to-sequence (out)
+                 (write-stop-request out "test@example")))
+         (read-request in))
+       'stop-request))
   )
 
 (test stop-response
+  (is (typep
+       (with-input-from-sequence
+           (in (with-output-to-sequence (out)
+                 (write-stop-ok-response out)))
+         (read-stop-response in))
+       'stop-ok-response))
   )
 
 (test stop-notok-response
+  (is (typep
+       (with-input-from-sequence
+           (in (with-output-to-sequence (out)
+                 (write-stop-not-ok-response out)))
+         (read-stop-response in))
+       'stop-not-ok-response))
   )
