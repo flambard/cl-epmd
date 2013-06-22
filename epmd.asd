@@ -18,4 +18,6 @@
              (:file "client"
                     :depends-on ("packages"
                                  "protocol"))
+             (:file "server-node-registry"
+                    :depends-on ("packages"))
              ))))

@@ -7,4 +7,6 @@
             ((:file "package")
              (:file "protocol-tests"
                     :depends-on ("package"))
+             (:file "server-tests"
+                    :depends-on ("package"))
              ))))

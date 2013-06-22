@@ -91,3 +91,12 @@
    #:host-unknown-error
 
    ))
+
+(defpackage #:epmd-server
+  (:documentation "EPMD server.")
+  (:use #:cl #:epmd-protocol #:usocket)
+  (:export
+
+   #:start
+
+   ))

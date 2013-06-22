@@ -1,6 +1,11 @@
 (defpackage #:epmd-test
   (:documentation "Unit tests for the EPMD functions.")
-  (:use #:cl #:epmd-protocol #:epmd-client #:fiveam #:flexi-streams)
+  (:use #:cl
+        #:epmd-protocol
+        #:epmd-client
+        #:epmd-server
+        #:fiveam
+        #:flexi-streams)
   (:export
 
    #:run-all-tests
