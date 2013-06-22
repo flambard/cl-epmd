@@ -14,23 +14,23 @@
    #:read-dump-response
    #:read-kill-response
    #:read-stop-response
-   #:write-alive2-request
-   #:write-port-please2-request
-   #:write-names-request
-   #:write-dump-request
-   #:write-kill-request
-   #:write-stop-request
+   #:make-alive2-request
+   #:make-port-please2-request
+   #:make-names-request
+   #:make-dump-request
+   #:make-kill-request
+   #:make-stop-request
 
    ;; Server functions
    #:read-request
-   #:write-alive2-response
-   #:write-port2-node-info-response
-   #:write-port2-null-response
-   #:write-names-response
-   #:write-dump-response
-   #:write-kill-response
-   #:write-stop-ok-response
-   #:write-stop-not-ok-response
+   #:make-alive2-response
+   #:make-port2-node-info-response
+   #:make-port2-null-response
+   #:make-names-response
+   #:make-dump-response
+   #:make-kill-response
+   #:make-stop-ok-response
+   #:make-stop-not-ok-response
 
    ;; Classes
    #:epmd-request
