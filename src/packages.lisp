@@ -49,10 +49,11 @@
    #:stop-ok-response
    #:stop-not-ok-response
 
+   #:creation
+   #:port
    #:node-info
    #:node-name
    #:node-host
-   #:node-port
    #:node-type
    #:node-protocol
    #:node-lowest-version
