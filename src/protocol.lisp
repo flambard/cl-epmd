@@ -54,6 +54,9 @@
 (defun read-request (stream)
   (read-value 'epmd-request stream))
 
+(defun write-message (stream message)
+  (write-value (type-of message) stream message))
+
 
 ;;;
 ;;; ALIVE2_REQ
@@ -93,20 +96,19 @@
          (message-length (+ 13 node-name-length extra-length))
          (node-type-integer (node-type-keyword-to-integer node-type))
          (protocol-integer (protocol-keyword-to-integer protocol)))
-    (write-value 'alive2-request
-                 stream
-                 (make-instance 'alive2-request
-                                :size message-length
-                                :tag (request-class-tag 'alive2-request)
-                                :port node-port
-                                :node-type node-type-integer
-                                :protocol protocol-integer
-                                :lowest-version lowest-version
-                                :highest-version highest-version
-                                :name-length node-name-length
-                                :name node-name
-                                :extra-length extra-length
-                                :extra extra))))
+    (write-message stream
+                   (make-instance 'alive2-request
+                                  :size message-length
+                                  :tag (request-class-tag 'alive2-request)
+                                  :port node-port
+                                  :node-type node-type-integer
+                                  :protocol protocol-integer
+                                  :lowest-version lowest-version
+                                  :highest-version highest-version
+                                  :name-length node-name-length
+                                  :name node-name
+                                  :extra-length extra-length
+                                  :extra extra))))
 
 
 ;;;
@@ -126,12 +128,11 @@
   (read-value 'alive2-response stream))
 
 (defun write-alive2-response (stream result &optional (creation 0))
-  (write-value 'alive2-response
-               stream
-               (make-instance 'alive2-response
-                              :tag (response-class-tag 'alive2-response)
-                              :result result
-                              :creation creation)))
+  (write-message stream
+                 (make-instance 'alive2-response
+                                :tag (response-class-tag 'alive2-response)
+                                :result result
+                                :creation creation)))
 
 
 ;;;
@@ -147,12 +148,11 @@
 
 (defun write-port-please2-request (stream node-name)
   (let ((message-length (1+ (length node-name))))
-    (write-value 'port-please2-request
-                 stream
-                 (make-instance 'port-please2-request
-                                :size message-length
-                                :tag (request-class-tag 'port-please2-request)
-                                :node-name node-name))))
+    (write-message stream
+                   (make-instance 'port-please2-request
+                                  :size message-length
+                                  :tag (request-class-tag 'port-please2-request)
+                                  :node-name node-name))))
 
 
 ;;;
@@ -197,11 +197,10 @@
   (read-value 'port2-response stream))
 
 (defun write-port2-null-response (stream &optional (result 1))
-  (write-value 'port2-null-response
-               stream
-               (make-instance 'port2-null-response
-                              :tag (response-class-tag 'port2-response)
-                              :result result)))
+  (write-message stream
+                 (make-instance 'port2-null-response
+                                :tag (response-class-tag 'port2-response)
+                                :result result)))
 
 (defun write-port2-node-info-response (stream node-name node-port &key
                                        (node-type :erlang)
@@ -213,20 +212,19 @@
         (extra-length (length extra))
         (node-type-integer (node-type-keyword-to-integer node-type))
         (protocol-integer (protocol-keyword-to-integer protocol)))
-    (write-value 'port2-node-info-response
-                 stream
-                 (make-instance 'port2-node-info-response
-                                :tag (response-class-tag 'port2-response)
-                                :result 0
-                                :port node-port
-                                :node-type node-type-integer
-                                :protocol protocol-integer
-                                :lowest-version lowest-version
-                                :highest-version highest-version
-                                :name-length node-name-length
-                                :name node-name
-                                :extra-length extra-length
-                                :extra extra))))
+    (write-message stream
+                   (make-instance 'port2-node-info-response
+                                  :tag (response-class-tag 'port2-response)
+                                  :result 0
+                                  :port node-port
+                                  :node-type node-type-integer
+                                  :protocol protocol-integer
+                                  :lowest-version lowest-version
+                                  :highest-version highest-version
+                                  :name-length node-name-length
+                                  :name node-name
+                                  :extra-length extra-length
+                                  :extra extra))))
 
 
 ;;;
@@ -240,11 +238,10 @@
   ())
 
 (defun write-names-request (stream)
-  (write-value 'names-request
-               stream
-               (make-instance 'names-request
-                              :size 1
-                              :tag (request-class-tag 'names-request))))
+  (write-message stream
+                 (make-instance 'names-request
+                                :size 1
+                                :tag (request-class-tag 'names-request))))
 
 
 ;;;
@@ -270,11 +267,10 @@
   (read-value 'names-response stream))
 
 (defun write-names-response (stream port node-info)
-  (write-value 'names-response
-               stream
-               (make-instance 'names-response
-                              :epmd-port-number port
-                              :node-info node-info)))
+  (write-message stream
+                 (make-instance 'names-response
+                                :epmd-port-number port
+                                :node-info node-info)))
 
 ;;;
 ;;; DUMP_REQ
@@ -287,11 +283,10 @@
   ())
 
 (defun write-dump-request (stream)
-  (write-value 'dump-request
-               stream
-               (make-instance 'dump-request
-                              :size 1
-                              :tag (request-class-tag 'dump-request))))
+  (write-message stream
+                 (make-instance 'dump-request
+                                :size 1
+                                :tag (request-class-tag 'dump-request))))
 
 ;;;
 ;;; DUMP_RESP
@@ -308,11 +303,10 @@
   (read-value 'dump-response stream))
 
 (defun write-dump-response (stream port node-info)
-  (write-value 'dump-response
-               stream
-               (make-instance 'dump-response
-                              :epmd-port-number port
-                              :node-info node-info)))
+  (write-message stream
+                 (make-instance 'dump-response
+                                :epmd-port-number port
+                                :node-info node-info)))
 
 ;;;
 ;;; KILL_REQ
@@ -325,11 +319,10 @@
   ())
 
 (defun write-kill-request (stream)
-  (write-value 'kill-request
-               stream
-               (make-instance 'kill-request
-                              :size 1
-                              :tag (request-class-tag 'kill-request))))
+  (write-message stream
+                 (make-instance 'kill-request
+                                :size 1
+                                :tag (request-class-tag 'kill-request))))
 
 
 ;;;
@@ -345,9 +338,8 @@
   (read-value 'kill-response stream))
 
 (defun write-kill-response (stream)
-  (write-value 'kill-response
-               stream
-               (make-instance 'kill-response :ok-string "OK")))
+  (write-message stream
+                 (make-instance 'kill-response :ok-string "OK")))
 
 
 ;;;
@@ -362,12 +354,11 @@
   ((node-name (iso-8859-1-string :length (1- size)))))
 
 (defun write-stop-request (stream node-name)
-  (write-value 'stop-request
-               stream
-               (make-instance 'stop-request
-                              :size (length node-name)
-                              :tag (request-class-tag 'stop-request)
-                              :node-name node-name)))
+  (write-message stream
+                 (make-instance 'stop-request
+                                :size (length node-name)
+                                :tag (request-class-tag 'stop-request)
+                                :node-name node-name)))
 
 ;;;
 ;;; STOP_RESP / STOP_NOTOK_RESP
@@ -391,11 +382,9 @@
   (read-value 'stop-response stream))
 
 (defun write-stop-ok-response (stream)
-  (write-value 'stop-ok-response
-               stream
-               (make-instance 'stop-ok-response :ok-string "STOPPED")))
+  (write-message stream
+                 (make-instance 'stop-ok-response :ok-string "STOPPED")))
 
 (defun write-stop-not-ok-response (stream)
-  (write-value 'stop-not-ok-response
-               stream
-               (make-instance 'stop-not-ok-response :ok-string "NOEXIST")))
+  (write-message stream
+                 (make-instance 'stop-not-ok-response :ok-string "NOEXIST")))

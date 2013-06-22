@@ -5,6 +5,8 @@
         #:com.gigamonkeys.binary-data.common-datatypes)
   (:export
 
+   #:write-message
+
    ;; Client functions
    #:read-alive2-response
    #:read-port2-response
