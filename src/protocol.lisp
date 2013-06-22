@@ -126,12 +126,12 @@
   (read-value 'alive2-response stream))
 
 (defun write-alive2-response (stream result &optional (creation 0))
-    (write-value 'alive2-response
-                 stream
-                 (make-instance 'alive2-response
-                                :tag (response-class-tag 'alive2-response)
-                                :result result
-                                :creation creation)))
+  (write-value 'alive2-response
+               stream
+               (make-instance 'alive2-response
+                              :tag (response-class-tag 'alive2-response)
+                              :result result
+                              :creation creation)))
 
 
 ;;;
