@@ -109,21 +109,6 @@
                    :extra-length extra-length
                    :extra extra)))
 
-(defun write-alive2-request (stream node-name node-port &key
-                             (node-type :hidden)
-                             (protocol :tcpip4)
-                             (lowest-version 5)
-                             (highest-version 5)
-                             (extra ""))
-  (write-message stream
-                 (make-alive2-request node-name
-                                      node-port
-                                      :node-type node-type
-                                      :protocol protocol
-                                      :lowest-version lowest-version
-                                      :highest-version highest-version
-                                      :extra extra)))
-
 
 ;;;
 ;;; ALIVE2_RESP
@@ -147,9 +132,6 @@
                  :result result
                  :creation creation))
 
-(defun write-alive2-response (stream result &optional (creation 0))
-  (write-message stream (make-alive2-response result creation)))
-
 
 ;;;
 ;;; PORT_PLEASE2_REQ
@@ -168,9 +150,6 @@
                    :size message-length
                    :tag (request-class-tag 'port-please2-request)
                    :node-name node-name)))
-
-(defun write-port-please2-request (stream node-name)
-  (write-message stream (make-port-please2-request node-name)))
 
 
 ;;;
@@ -219,9 +198,6 @@
                  :tag (response-class-tag 'port2-response)
                  :result result))
 
-(defun write-port2-null-response (stream &optional (result 1))
-  (write-message stream (make-port2-null-response result)))
-
 (defun make-port2-node-info-response (node-name node-port &key
                                       (node-type :erlang)
                                       (protocol :tcpip4)
@@ -245,21 +221,6 @@
                    :extra-length extra-length
                    :extra extra)))
 
-(defun write-port2-node-info-response (stream node-name node-port &key
-                                       (node-type :erlang)
-                                       (protocol :tcpip4)
-                                       (lowest-version 5)
-                                       (highest-version 5)
-                                       (extra ""))
-  (write-message stream
-                 (make-port2-node-info-response node-name
-                                                node-port
-                                                :node-type node-type
-                                                :protocol protocol
-                                                :lowest-version lowest-version
-                                                :highest-version highest-version
-                                                :extra extra)))
-
 
 ;;;
 ;;; NAMES_REQ
@@ -275,9 +236,6 @@
   (make-instance 'names-request
                  :size 1
                  :tag (request-class-tag 'names-request)))
-
-(defun write-names-request (stream)
-  (write-message stream (make-names-request)))
 
 
 ;;;
@@ -307,9 +265,6 @@
                  :epmd-port-number port
                  :node-info node-info))
 
-(defun write-names-response (stream port node-info)
-  (write-message stream (make-names-response port node-info)))
-
 
 ;;;
 ;;; DUMP_REQ
@@ -325,9 +280,6 @@
   (make-instance 'dump-request
                  :size 1
                  :tag (request-class-tag 'dump-request)))
-
-(defun write-dump-request (stream)
-  (write-message stream (make-dump-request)))
 
 
 ;;;
@@ -349,9 +301,6 @@
                  :epmd-port-number port
                  :node-info node-info))
 
-(defun write-dump-response (stream port node-info)
-  (write-message stream (make-dump-response port node-info)))
-
 
 ;;;
 ;;; KILL_REQ
@@ -368,9 +317,6 @@
                  :size 1
                  :tag (request-class-tag 'kill-request)))
 
-(defun write-kill-request (stream)
-  (write-message stream (make-kill-request)))
-
 
 ;;;
 ;;; KILL_RESP
@@ -386,9 +332,6 @@
 
 (defun make-kill-response ()
   (make-instance 'kill-response :ok-string "OK"))
-
-(defun write-kill-response (stream)
-  (write-message stream (make-kill-response)))
 
 
 ;;;
@@ -407,9 +350,6 @@
                  :size (length node-name)
                  :tag (request-class-tag 'stop-request)
                  :node-name node-name))
-
-(defun write-stop-request (stream node-name)
-  (write-message stream (make-stop-request node-name)))
 
 
 ;;;
@@ -436,11 +376,5 @@
 (defun make-stop-ok-response ()
   (make-instance 'stop-ok-response :ok-string "STOPPED"))
 
-(defun write-stop-ok-response (stream)
-  (write-message stream (make-stop-ok-response)))
-
 (defun make-stop-not-ok-response ()
   (make-instance 'stop-not-ok-response :ok-string "NOEXIST"))
-
-(defun write-stop-not-ok-response (stream)
-  (write-message stream (make-stop-not-ok-response)))
