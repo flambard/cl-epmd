@@ -9,7 +9,7 @@
 (defclass node ()
   ((name            :initarg :name)
    (port            :initarg :port)
-   (type            :initarg :type            :initform :erlang)
+   (type            :initarg :node-type       :initform :erlang)
    (protocol        :initarg :protocol        :initform :tcpip4)
    (lowest-version  :initarg :lowest-version  :initform 5)
    (highest-version :initarg :highest-version :initform 5)
