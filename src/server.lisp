@@ -5,10 +5,17 @@
 ;;;
 
 (defclass epmd-server ()
-  ((listen-port      :initarg  :listen-port      :reader listen-port)
-   (listen-socket    :initarg  :listen-socket    :reader listen-socket)
-   (registered-nodes :initform (make-node-registry)
-                     :accessor registered-nodes)))
+  ((listen-port
+    :initarg :listen-port
+    :reader listen-port
+    :initform 4369)
+   (listen-socket
+    :initarg :listen-socket
+    :reader listen-socket)
+   (registered-nodes
+    :initform (make-node-registry)
+    :accessor registered-nodes))
+  (:documentation "An EPMD server."))
 
 
 ;;;
