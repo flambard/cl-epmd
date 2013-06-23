@@ -52,12 +52,17 @@
    #:stop-not-ok-response
 
    #:creation
+   #:extra
+   #:highest-version
+   #:lowest-version
+   #:name
    #:port
+   #:protocol
+   #:result
    #:node-info
    #:node-name
    #:node-host
    #:node-type
-   #:node-protocol
    #:node-lowest-version
    #:node-highest-version
    #:node-extra-field
