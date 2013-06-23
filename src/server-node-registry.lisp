@@ -6,6 +6,16 @@
 (defun make-node-registry ()
   (make-instance 'node-registry))
 
+(defclass node ()
+  ((name            :initarg :name)
+   (port            :initarg :port)
+   (type            :initarg :type            :initform :erlang)
+   (protocol        :initarg :protocol        :initform :tcpip4)
+   (lowest-version  :initarg :lowest-version  :initform 5)
+   (highest-version :initarg :highest-version :initform 5)
+   (extra           :initarg :extra           :initform ""))
+  (:documentation "A registered node."))
+
 (defgeneric find-node (registry node-name)
   (:documentation "Return the node associated with node-name in registry."))
 
