@@ -6,7 +6,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-alive2-request out "test@example" 3456)))
+                 (write-message out (make-alive2-request "test@example" 3456))))
          (read-request in))
        'alive2-request))
   )
@@ -15,7 +15,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-alive2-response out 0)))
+                 (write-message out (make-alive2-response 0))))
          (read-alive2-response in))
        'alive2-response))
   )
@@ -24,7 +24,8 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-port-please2-request out "test@example")))
+                 (write-message out (make-port-please2-request
+                                     "test@example"))))
          (read-request in))
        'port-please2-request))
   )
@@ -33,14 +34,15 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-port2-null-response out)))
+                 (write-message out (make-port2-null-response))))
          (read-port2-response in))
        'port2-response))
 
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-port2-node-info-response out "test@example" 3456)))
+                 (write-message out (make-port2-node-info-response
+                                     "test@example" 3456))))
          (read-port2-response in))
        'port2-response))
   )
@@ -49,7 +51,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-names-request out)))
+                 (write-message out (make-names-request))))
          (read-request in))
        'names-request))
   )
@@ -58,7 +60,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-names-response out 3456 "hello world")))
+                 (write-message out (make-names-response 3456 "hello world"))))
          (read-names-response in))
        'names-response))
   )
@@ -67,7 +69,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-dump-request out)))
+                 (write-message out (make-dump-request))))
          (read-request in))
        'dump-request))
   )
@@ -76,7 +78,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-dump-response out 3456 "hello world")))
+                 (write-message out (make-dump-response 3456 "hello world"))))
          (read-dump-response in))
        'dump-response))
   )
@@ -85,7 +87,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-kill-request out)))
+                 (write-message out (make-kill-request))))
          (read-request in))
        'kill-request))
   )
@@ -94,7 +96,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-kill-response out)))
+                 (write-message out (make-kill-response))))
          (read-kill-response in))
        'kill-response))
   )
@@ -103,7 +105,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-stop-request out "test@example")))
+                 (write-message out (make-stop-request "test@example"))))
          (read-request in))
        'stop-request))
   )
@@ -112,7 +114,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-stop-ok-response out)))
+                 (write-message out (make-stop-ok-response))))
          (read-stop-response in))
        'stop-ok-response))
   )
@@ -121,7 +123,7 @@
   (is (typep
        (with-input-from-sequence
            (in (with-output-to-sequence (out)
-                 (write-stop-not-ok-response out)))
+                 (write-message out (make-stop-not-ok-response))))
          (read-stop-response in))
        'stop-not-ok-response))
   )
