@@ -20,4 +20,8 @@
                                  "protocol"))
              (:file "server-node-registry"
                     :depends-on ("packages"))
+             (:file "server"
+                    :depends-on ("packages"
+                                 "protocol"
+                                 "server-node-registry"))
              ))))
