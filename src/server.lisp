@@ -69,7 +69,7 @@
 (defmethod response ((server epmd-server) (request dump-request))
   ;; TODO: Return a dump(?) of all registered nodes
   (let ((dump ""))
-    (make-dump-response (port server) dump)))
+    (make-dump-response (listen-port server) dump)))
 
 (defmethod response ((server epmd-server) (request kill-request))
   (make-kill-response))

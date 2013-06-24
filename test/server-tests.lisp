@@ -106,7 +106,10 @@
 
 (test dump-request-response
 
-  ;; TODO
+  (let* ((server (make-instance 'epmd-server::epmd-server))
+         (request (make-dump-request))
+         (response (epmd-server::response server request)))
+    (is (typep response 'dump-response)))
 
   )
 
