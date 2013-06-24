@@ -107,3 +107,26 @@
 
 (defmethod response ((server epmd-server) (request stop-request))
   (make-stop-not-ok-response))
+
+
+;;;
+;;; Generic function POST-RESPONSE-ACTION
+;;;
+
+(defgeneric post-response-action (server response connection)
+  (:documentation "Action to perform after sending a response."))
+
+
+(defmethod post-response-action (server response connection)
+  (declare (ignore server response))
+  ;; Default action: Close the connection
+  (close-connection connection))
+
+(defmethod post-response-action (server (response alive2-response) connection)
+  (declare (ignore server response connection))
+  ;; Do NOT close the connection!
+  )
+
+(defmethod post-response-action (server (response kill-response) connection)
+  (declare (ignore response connection))
+  (kill-server server))
