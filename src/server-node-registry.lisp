@@ -39,3 +39,10 @@
 (defmethod unregister-node ((registry node-registry) (node-name string))
   (with-slots (table) registry
     (remhash node-name table)))
+
+
+(defgeneric get-all-nodes (registry)
+  (:documentation "Return a list of all registered nodes."))
+
+(defmethod get-all-nodes ((registry node-registry))
+  (loop for node being the hash-values in (table registry) collect node))
