@@ -34,6 +34,14 @@
 
 
 ;;;
+;;; Generic function CLOSE-CONNECTION
+;;;
+
+(defgeneric close-connection (connection)
+  (:documentation "Close the client connection."))
+
+
+;;;
 ;;; Generic function RESPONSE
 ;;;
 
