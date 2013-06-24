@@ -57,3 +57,11 @@
                                          :lowest-version lowest-version
                                          :highest-version highest-version
                                          :extra extra)) )))
+
+(defmethod response ((server epmd-server) (request names-request))
+  (let* ((node-strings (loop
+                          for node in (get-all-nodes (registered-nodes server))
+                          collect (format nil "name ~a at port ~a~&"
+                                          (name node) (port node))))
+         (node-info (format nil "~{~a~}" node-strings)))
+    (make-names-response (listen-port server) node-info)))

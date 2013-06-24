@@ -84,5 +84,21 @@
     (let* ((request (make-port-please2-request node-name))
            (response (epmd-server::response server request)))
       (is (typep response 'port2-node-info-response))))
+  )
 
+
+(test names-request-response
+
+  (let* ((server (make-instance 'epmd-server::epmd-server))
+         (node-name "node@example.com")
+         (node (make-instance 'epmd-server::node
+                              :name node-name
+                              :port 1234)))
+    (epmd-server::register-node (epmd-server::registered-nodes server)
+                                node-name
+                                node)
+    (let* ((request (make-names-request))
+           (response (epmd-server::response server request)))
+      (is (string= (format nil "name node@example.com at port 1234~&")
+                   (node-info response)))))
   )

@@ -7,8 +7,8 @@
   (make-instance 'node-registry))
 
 (defclass node ()
-  ((name            :initarg :name)
-   (port            :initarg :port)
+  ((name            :initarg :name            :reader name)
+   (port            :initarg :port            :reader port)
    (type            :initarg :node-type       :initform :erlang)
    (protocol        :initarg :protocol        :initform :tcpip4)
    (lowest-version  :initarg :lowest-version  :initform 5)
