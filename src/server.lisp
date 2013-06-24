@@ -42,6 +42,14 @@
 
 
 ;;;
+;;; Generic function KILL-SERVER
+;;;
+
+(defgeneric kill-server (server)
+  (:documentation "Kill the EPMD server."))
+
+
+;;;
 ;;; Generic function RESPONSE
 ;;;
 
