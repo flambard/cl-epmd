@@ -19,6 +19,21 @@
 
 
 ;;;
+;;; NODE class
+;;;
+
+(defclass node ()
+  ((name            :initarg :name            :reader name)
+   (port            :initarg :port            :reader port)
+   (type            :initarg :node-type       :initform :erlang)
+   (protocol        :initarg :protocol        :initform :tcpip4)
+   (lowest-version  :initarg :lowest-version  :initform 5)
+   (highest-version :initarg :highest-version :initform 5)
+   (extra           :initarg :extra           :initform ""))
+  (:documentation "A registered node."))
+
+
+;;;
 ;;; Generic function RESPONSE
 ;;;
 
