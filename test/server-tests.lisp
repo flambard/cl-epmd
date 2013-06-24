@@ -102,3 +102,30 @@
       (is (string= (format nil "name node@example.com at port 1234~&")
                    (node-info response)))))
   )
+
+
+(test dump-request-response
+
+  ;; TODO
+
+  )
+
+
+(test kill-request-response
+
+  (let* ((server (make-instance 'epmd-server::epmd-server))
+         (request (make-kill-request))
+         (response (epmd-server::response server request)))
+    (is (typep response 'kill-response)))
+
+  )
+
+
+(test stop-request-response
+
+  (let* ((server (make-instance 'epmd-server::epmd-server))
+         (request (make-stop-request "node@example.com"))
+         (response (epmd-server::response server request)))
+    (is (typep response 'stop-response)))
+
+  )
