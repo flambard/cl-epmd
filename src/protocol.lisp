@@ -66,8 +66,8 @@
 ;; 2 bytes: Listening port
 ;; 1 byte:  72                [hidden node (not Erlang node)]
 ;; 1 byte:  0                 [protocol: tcp/ip v4]
-;; 2 bytes: 5                 [lowest version supported]
 ;; 2 bytes: 5                 [highest version supported]
+;; 2 bytes: 5                 [lowest version supported]
 ;; 2 bytes: Length of node name
 ;; N bytes: Node name
 ;; 2 bytes: Length of the Extra field
@@ -78,8 +78,8 @@
   ((port            u2)
    (node-type       u1)
    (protocol        u1)
-   (lowest-version  u2)
    (highest-version u2)
+   (lowest-version  u2)
    (name-length     u2)
    (name            (iso-8859-1-string :length name-length))
    (extra-length    u2)
@@ -88,8 +88,8 @@
 (defun make-alive2-request (node-name node-port &key
                             (node-type :hidden)
                             (protocol :tcpip4)
-                            (lowest-version 5)
                             (highest-version 5)
+                            (lowest-version 5)
                             (extra ""))
   (let* ((node-name-length (length node-name))
          (extra-length (length extra))
@@ -102,8 +102,8 @@
                    :port node-port
                    :node-type node-type-integer
                    :protocol protocol-integer
-                   :lowest-version lowest-version
                    :highest-version highest-version
+                   :lowest-version lowest-version
                    :name-length node-name-length
                    :name node-name
                    :extra-length extra-length
@@ -161,8 +161,8 @@
 ;; 2 bytes: Port
 ;; 1 byte:  Node type      [77 means Erlang node, 72 means hidden node]
 ;; 1 byte:  Protocol       [0 means TCP/IP v4]
-;; 2 bytes: Lowest version supported
 ;; 2 bytes: Highest version supported
+;; 2 bytes: Lowest version supported
 ;; 2 bytes: Node name length
 ;; N bytes: Node name
 ;; 2 bytes: Extra field length
@@ -180,8 +180,8 @@
   ((port            u2)
    (node-type       u1)
    (protocol        u1)
-   (lowest-version  u2)
    (highest-version u2)
+   (lowest-version  u2)
    (name-length     u2)
    (name            (iso-8859-1-string :length name-length))
    (extra-length    u2)
@@ -201,8 +201,8 @@
 (defun make-port2-node-info-response (node-name node-port &key
                                       (node-type :erlang)
                                       (protocol :tcpip4)
-                                      (lowest-version 5)
                                       (highest-version 5)
+                                      (lowest-version 5)
                                       (extra ""))
   (let ((node-name-length (length node-name))
         (extra-length (length extra))
@@ -214,8 +214,8 @@
                    :port node-port
                    :node-type node-type-integer
                    :protocol protocol-integer
-                   :lowest-version lowest-version
                    :highest-version highest-version
+                   :lowest-version lowest-version
                    :name-length node-name-length
                    :name node-name
                    :extra-length extra-length

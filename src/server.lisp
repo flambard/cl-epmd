@@ -27,8 +27,8 @@
    (port            :initarg :port            :reader port)
    (type            :initarg :node-type       :initform :erlang)
    (protocol        :initarg :protocol        :initform :tcpip4)
-   (lowest-version  :initarg :lowest-version  :initform 5)
    (highest-version :initarg :highest-version :initform 5)
+   (lowest-version  :initarg :lowest-version  :initform 5)
    (extra           :initarg :extra           :initform ""))
   (:documentation "A registered node."))
 
@@ -59,15 +59,15 @@
 
 (defmethod response ((server epmd-server) (request alive2-request))
   (with-slots
-        (name port node-type protocol lowest-version highest-version extra)
+        (name port node-type protocol highest-version lowest-version extra)
       request
     (let ((node (make-instance 'node
                                :name name
                                :port port
                                :node-type node-type
                                :protocol protocol
-                               :lowest-version lowest-version
                                :highest-version highest-version
+                               :lowest-version lowest-version
                                :extra extra)))
       (register-node (registered-nodes server) name node)))
   ;; TODO: Result = 1 if not OK
@@ -79,14 +79,14 @@
          (node (find-node (registered-nodes server) node-name)))
     (if (null node)
         (make-port2-null-response)
-        (with-slots (port type protocol lowest-version highest-version extra)
+        (with-slots (port type protocol highest-version lowest-version extra)
             node
           (make-port2-node-info-response node-name
                                          port
                                          :node-type type
                                          :protocol protocol
-                                         :lowest-version lowest-version
                                          :highest-version highest-version
+                                         :lowest-version lowest-version
                                          :extra extra)) )))
 
 (defmethod response ((server epmd-server) (request names-request))
