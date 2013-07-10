@@ -6,6 +6,7 @@
         #:epmd-server
         #:fiveam
         #:flexi-streams)
+  (:shadow #:run-all-tests)
   (:export
 
    #:run-all-tests
