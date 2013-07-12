@@ -27,4 +27,8 @@
                     :depends-on ("packages"
                                  "protocol"
                                  "server-node-registry"))
+             (:file "server-loop"
+                    :depends-on ("common"
+                                 "packages"
+                                 "server"))
              ))))
