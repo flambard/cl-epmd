@@ -123,9 +123,9 @@
   (close-connection connection))
 
 (defmethod post-response-action (server (response alive2-response) connection)
-  (declare (ignore server response connection))
+  (declare (ignore server response))
   ;; Do NOT close the connection!
-  )
+  (finish-output (connection-stream connection)))
 
 (defmethod post-response-action (server (response kill-response) connection)
   (declare (ignore response connection))
