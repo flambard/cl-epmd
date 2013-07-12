@@ -74,14 +74,11 @@ node is published on that EPMD."))
 
 (defun print-all-registered-nodes (&optional (host "localhost") (stream t))
   "Query the EPMD about all registered nodes and print the information."
-  (declare (ignore stream))
   (with-epmd-connection-stream (epmd host)
     (write-message epmd (make-names-request))
     (finish-output epmd)
     (let ((names-response (read-names-response epmd)))
-      (declare (ignore names-response))
-      ;; TODO: Print all node names
-      ;; (format stream "~{~a~%~}" node-info)
+      (format stream "~a~&" (node-info names-response))
       t)))
 
 
