@@ -2,14 +2,9 @@
 
 (in-package :epmd-client)
 
-;;; EPMD port
-(defconstant +epmd-port+ 4369
-  "The default TCP port the EPMD listens on.")
-
-
 (defun connect-to-epmd (&optional (host "localhost"))
   (handler-case (usocket:socket-connect host
-                                        +epmd-port+
+                                        +port+
                                         :element-type '(unsigned-byte 8))
     (usocket:connection-refused-error ()
       (error 'unreachable-error))

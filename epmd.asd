@@ -13,10 +13,13 @@
   ((:module :src
             :components
             ((:file "packages")
+             (:file "common"
+                    :depends-on ("packages"))
              (:file "protocol"
                     :depends-on ("packages"))
              (:file "client"
-                    :depends-on ("packages"
+                    :depends-on ("common"
+                                 "packages"
                                  "protocol"))
              (:file "server-node-registry"
                     :depends-on ("packages"))

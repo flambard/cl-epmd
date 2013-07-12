@@ -69,9 +69,17 @@
 
    ))
 
+(defpackage #:epmd-common
+  (:use #:cl)
+  (:export
+
+   #:+port+
+
+   ))
+
 (defpackage #:epmd-client
   (:documentation "EPMD (Erlang Port Mapper Daemon) client.")
-  (:use #:cl #:epmd-protocol #:usocket)
+  (:use #:cl #:epmd-protocol #:epmd-common #:usocket)
   (:export
 
    #:epmd-connection
@@ -102,7 +110,7 @@
 
 (defpackage #:epmd-server
   (:documentation "EPMD server.")
-  (:use #:cl #:epmd-protocol #:usocket)
+  (:use #:cl #:epmd-protocol #:epmd-common #:usocket)
   (:export
 
    #:start
