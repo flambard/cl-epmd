@@ -42,6 +42,14 @@
 
 
 ;;;
+;;; Generic function CONNECTION-STREAM
+;;;
+
+(defgeneric connection-stream (connection)
+  (:documentation "Returns the underlying stream of CONNECTION."))
+
+
+;;;
 ;;; Generic function KILL-SERVER
 ;;;
 
