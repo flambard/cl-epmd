@@ -65,12 +65,35 @@ node is published on that EPMD."))
   (usocket:socket-close (epmd-connection-socket epmd-connection)))
 
 
+(defclass node-info ()
+  ((name :initarg :name :reader node-name)
+   (host :initarg :host :reader node-host)
+   (port :initarg :port :reader node-port)
+   (node-type :initarg :node-type :reader node-type)
+   (protocol :initarg :protocol :reader node-protocol)
+   (highest-version :initarg :highest-version :reader node-highest-version)
+   (lowest-version :initarg :lowest-version :reader node-lowest-version)
+   (extra-field :initarg :extra-field :reader node-extra-field)))
+
+
 (defun lookup-node (node-name &optional (host "localhost"))
   "Query the EPMD about a node. Returns a REMOTE-NODE object that represents the node."
-  (with-epmd-connection-stream (epmd host)
-    (write-message epmd (make-port-please2-request node-name))
-    (finish-output epmd)
-    (read-port2-response epmd)))
+  (let ((response (with-epmd-connection-stream (epmd host)
+                    (write-message epmd (make-port-please2-request node-name))
+                    (finish-output epmd)
+                    (read-port2-response epmd))))
+    (etypecase response
+      (port2-null-response nil)
+      (port2-node-info-response
+       (make-instance 'node-info
+                      :name (name response)
+                      :host host
+                      :port (port response)
+                      :node-type (node-type response)
+                      :protocol (protocol response)
+                      :highest-version (highest-version response)
+                      :lowest-version (lowest-version response)
+                      :extra-field (extra response)))) ))
 
 (defun print-all-registered-nodes (&optional (host "localhost") (stream t))
   "Query the EPMD about all registered nodes and print the information."
