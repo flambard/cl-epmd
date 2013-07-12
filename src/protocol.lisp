@@ -2,25 +2,10 @@
 
 (in-package :epmd-protocol)
 
+(defconstant +node-type-hidden+ 72)
+(defconstant +node-type-erlang+ 77)
 
-(defun protocol-keyword-to-integer (keyword)
-  (ecase keyword
-    (:tcpip4 0)))
-
-(defun protocol-integer-to-keyword (integer)
-  (ecase integer
-    (0 :tcpip4)))
-
-
-(defun node-type-keyword-to-integer (keyword)
-  (ecase keyword
-    (:hidden 72)
-    (:erlang 77)))
-
-(defun node-type-integer-to-keyword (integer)
-  (ecase integer
-    (72 :hidden)
-    (77 :erlang)))
+(defconstant +node-protocol-tcpip4+ 0)
 
 
 (defun response-class-tag (class)
@@ -86,22 +71,20 @@
    (extra           (iso-8859-1-string :length extra-length))))
 
 (defun make-alive2-request (node-name node-port &key
-                            (node-type :hidden)
-                            (protocol :tcpip4)
+                            (node-type +node-type-hidden+)
+                            (protocol +node-protocol-tcpip4+)
                             (highest-version 5)
                             (lowest-version 5)
                             (extra ""))
   (let* ((node-name-length (length node-name))
          (extra-length (length extra))
-         (message-length (+ 13 node-name-length extra-length))
-         (node-type-integer (node-type-keyword-to-integer node-type))
-         (protocol-integer (protocol-keyword-to-integer protocol)))
+         (message-length (+ 13 node-name-length extra-length)))
     (make-instance 'alive2-request
                    :size message-length
                    :tag (request-class-tag 'alive2-request)
                    :port node-port
-                   :node-type node-type-integer
-                   :protocol protocol-integer
+                   :node-type node-type
+                   :protocol protocol
                    :highest-version highest-version
                    :lowest-version lowest-version
                    :name-length node-name-length
@@ -199,21 +182,19 @@
                  :result result))
 
 (defun make-port2-node-info-response (node-name node-port &key
-                                      (node-type :erlang)
-                                      (protocol :tcpip4)
+                                      (node-type +node-type-erlang+)
+                                      (protocol +node-protocol-tcpip4+)
                                       (highest-version 5)
                                       (lowest-version 5)
                                       (extra ""))
   (let ((node-name-length (length node-name))
-        (extra-length (length extra))
-        (node-type-integer (node-type-keyword-to-integer node-type))
-        (protocol-integer (protocol-keyword-to-integer protocol)))
+        (extra-length (length extra)))
     (make-instance 'port2-node-info-response
                    :tag (response-class-tag 'port2-response)
                    :result 0
                    :port node-port
-                   :node-type node-type-integer
-                   :protocol protocol-integer
+                   :node-type node-type
+                   :protocol protocol
                    :highest-version highest-version
                    :lowest-version lowest-version
                    :name-length node-name-length
