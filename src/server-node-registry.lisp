@@ -1,7 +1,7 @@
 (in-package :epmd-server)
 
 (defclass node-registry ()
-  ((table :reader table :initform (make-hash-table))))
+  ((table :reader table :initform (make-hash-table :test 'equal))))
 
 (defun make-node-registry ()
   (make-instance 'node-registry))
