@@ -25,14 +25,10 @@
   (handler-case
       (unwind-protect
            (loop
-              (format t "Listening...~%")
-              (finish-output)
               (let* ((socket (usocket:socket-accept (listen-socket server)))
                      (stream (usocket:socket-stream socket))
                      (request (read-request stream))
                      (response (response server request)))
-                (format t "Got request: ~a~%" request)
-                (finish-output)
                 (write-message stream response)
                 (post-response-action server response socket)))
         (usocket:socket-close (listen-socket server)))
