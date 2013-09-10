@@ -9,17 +9,18 @@
   (:shadow #:run-all-tests)
   (:export
 
+   #:all-tests
    #:run-all-tests
 
    ))
 
 (in-package :epmd-test)
 
-(def-suite epmd-protocol)
-(def-suite epmd-client)
-(def-suite epmd-server)
+(def-suite all-tests)
+
+(def-suite epmd-protocol :in all-tests)
+(def-suite epmd-client   :in all-tests)
+(def-suite epmd-server   :in all-tests)
 
 (defun run-all-tests ()
-  (run! 'epmd-protocol)
-  (run! 'epmd-client)
-  (run! 'epmd-server))
+  (run! 'all-tests))
