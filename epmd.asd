@@ -6,7 +6,7 @@
 (asdf:defsystem :epmd
   :description "Erlang Port Mapper Daemon client"
   :author "Markus Flambard <mflambard@common-lisp.net>"
-  :version "0.1.0"
+  :version "0.2.0"
   :license "MIT License"
   :depends-on (:com.gigamonkeys.binary-data :usocket)
   :components
