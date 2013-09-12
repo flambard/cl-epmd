@@ -44,12 +44,12 @@ node is published on that EPMD."))
          (stream (usocket:socket-stream socket)))
     (write-message stream (make-alive2-request node-name listening-port))
     (finish-output stream)
-    (let* ((alive2-response (read-alive2-response stream)))
+    (let ((alive2-response (read-alive2-response stream)))
       (make-instance 'epmd-connection
                      :socket socket
                      :creation (creation alive2-response)
                      :node-name node-name
-                     :node-port node-port))))
+                     :node-port listening-port))))
 
 (defun published-p (epmd-connection)
   ;; We try to read from the socket and if we get the END-OF-FILE condition,
