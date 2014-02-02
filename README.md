@@ -45,6 +45,8 @@ Server API
 Client API
 ----------
 
+### Requests
+
 [Function]  
 **lookup-node** *node-name `&optional` host* => *node-info*
 
@@ -73,3 +75,49 @@ Client API
 >
 > *publish* returns an *epmd-connection* object that the application must keep
 > as long as it is registered on the server.
+
+
+### Node info
+
+[Standard class]  
+**node-info**
+
+> An object of this type is returned by *lookup-node* containing information
+> about another node. The most interesting part of this object is *node-port*
+> which is needed to connect to the corresponding node.
+
+[Accessors]  
+**node-name**
+**node-host**
+**node-port**
+**node-type**
+**node-protocol**
+**node-highest-version**
+**node-lowest-version**
+**node-extra-field**
+
+
+### EPMD connection
+
+[Standard class]  
+**epmd-connection**
+
+> An object of this type is returned by *publish* after a successful
+> registration. The application must keep track of this object as long as it is
+> registered on the EPMD server.
+
+[Accessors]  
+**published-node-name**
+**published-node-port**
+
+[Function]  
+**published-p** *epmd-connection* => *boolean*
+
+> This functions returns *true* if the connection to the EPMD server is still
+> open, which indicates that the node is registered and published.
+
+[Function]  
+**unpublish** *epmd-connection* => *boolean*
+
+> This functions closes the connection to the EPMD server and unregisters the
+> node.
