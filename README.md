@@ -87,13 +87,13 @@ Client API
 > which is needed to connect to the corresponding node.
 
 [Accessors]  
-**node-name**
-**node-host**
-**node-port**
-**node-type**
-**node-protocol**
-**node-highest-version**
-**node-lowest-version**
+**node-name**  
+**node-host**  
+**node-port**  
+**node-type**  
+**node-protocol**  
+**node-highest-version**  
+**node-lowest-version**  
 **node-extra-field**
 
 
@@ -107,7 +107,7 @@ Client API
 > registered on the EPMD server.
 
 [Accessors]  
-**published-node-name**
+**published-node-name**  
 **published-node-port**
 
 [Function]  
